@@ -607,9 +607,60 @@ function getIncomeSources($monthId = null) {
  * @return array
  */
 function getExpenseCategories() {
-    $userId = getCurrentUserId();
-    $sql = "SELECT * FROM expense_categories WHERE is_active = 1 AND user_id = ? ORDER BY name";
-    return fetchAll($sql, [$userId]);
+    $sql = "SELECT * FROM expense_categories WHERE is_active = 1 ORDER BY name";
+    return fetchAll($sql);
+}
+
+/**
+ * Get expense category by ID
+ * @param int $id
+ * @return array|false
+ */
+function getExpenseCategoryById($id) {
+    $sql = "SELECT * FROM expense_categories WHERE id = ?";
+    return fetchOne($sql, [$id]);
+}
+
+/**
+ * Add new expense category
+ * @param array $data
+ * @return bool
+ */
+function addExpenseCategory($data) {
+    $sql = "INSERT INTO expense_categories (name, description, color) VALUES (?, ?, ?)";
+    $params = [
+        sanitizeInput($data['name']),
+        sanitizeInput($data['description']),
+        sanitizeInput($data['color'])
+    ];
+    return executeQuery($sql, $params);
+}
+
+/**
+ * Update expense category
+ * @param int $id
+ * @param array $data
+ * @return bool
+ */
+function updateExpenseCategory($id, $data) {
+    $sql = "UPDATE expense_categories SET name = ?, description = ?, color = ? WHERE id = ?";
+    $params = [
+        sanitizeInput($data['name']),
+        sanitizeInput($data['description']),
+        sanitizeInput($data['color']),
+        $id
+    ];
+    return executeQuery($sql, $params);
+}
+
+/**
+ * Delete expense category (soft delete)
+ * @param int $id
+ * @return bool
+ */
+function deleteExpenseCategory($id) {
+    $sql = "UPDATE expense_categories SET is_active = 0 WHERE id = ?";
+    return executeQuery($sql, [$id]);
 }
 
 /**

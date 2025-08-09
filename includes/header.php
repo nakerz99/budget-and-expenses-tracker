@@ -214,6 +214,11 @@ $currentPage = basename($_SERVER['PHP_SELF'], '.php');
                                     <i class="fas fa-chart-bar me-2"></i>Analytics
                                 </a>
                             </li>
+                            <li>
+                                <a class="dropdown-item <?php echo $currentPage === 'expense-categories' ? 'active' : ''; ?>" href="<?php echo isInPagesDirectory() ? '../expense-categories' : './expense-categories'; ?>">
+                                    <i class="fas fa-tags me-2"></i>Expense Categories
+                                </a>
+                            </li>
                             <?php if (isAdmin()): ?>
                             <li><hr class="dropdown-divider"></li>
                             <li>

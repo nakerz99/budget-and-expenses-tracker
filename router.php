@@ -34,7 +34,8 @@ $routes = [
     '/monthly-budget' => '/pages/monthly-budget.php',
     '/analytics' => '/pages/monthly-analytics.php',
     '/user-approvals' => '/pages/user-approvals.php',
-    '/pin-settings' => '/pages/pin-settings.php'
+    '/pin-settings' => '/pages/pin-settings.php',
+    '/expense-categories' => '/pages/expense-categories.php'
 ];
 
 // Check if the path matches any of our routes
