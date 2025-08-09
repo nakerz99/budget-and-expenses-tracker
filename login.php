@@ -5,17 +5,37 @@
  */
 
 session_start();
-require_once 'includes/functions.php';
 
-// Clear any corrupted session data
-if (isset($_GET['clear']) || !isset($_SESSION['authenticated'])) {
+// Force clear session if requested or if there are authentication issues
+if (isset($_GET['clear']) || isset($_GET['reset'])) {
     session_destroy();
     session_start();
+    // Redirect to clean login page
+    header("Location: login.php");
+    exit();
 }
 
-// If already authenticated, redirect to dashboard
-if (isAuthenticated()) {
-    redirect('index.php');
+// Prevent redirect loops by checking redirect count
+if (isset($_SESSION['redirect_count']) && $_SESSION['redirect_count'] > 5) {
+    session_destroy();
+    session_start();
+    $_SESSION['redirect_count'] = 0;
+}
+
+require_once 'includes/functions.php';
+
+// Check if user is already authenticated
+if (isset($_SESSION['authenticated']) && $_SESSION['authenticated'] === true && 
+    isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])) {
+    // User is authenticated, redirect to dashboard
+    header("Location: index.php");
+    exit();
+}
+
+// Check for session timeout (30 minutes)
+if (isset($_SESSION['login_time']) && (time() - $_SESSION['login_time']) > 1800) {
+    session_destroy();
+    session_start();
 }
 
 // Handle login submission

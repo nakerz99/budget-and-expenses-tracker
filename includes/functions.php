@@ -11,7 +11,27 @@ require_once __DIR__ . '/../config/database.php';
  * @return bool
  */
 function isAuthenticated() {
-    return isset($_SESSION['authenticated']) && $_SESSION['authenticated'] === true;
+    // Check if session is properly set and user_id exists
+    if (!isset($_SESSION['authenticated']) || $_SESSION['authenticated'] !== true) {
+        return false;
+    }
+    
+    if (!isset($_SESSION['user_id']) || empty($_SESSION['user_id'])) {
+        return false;
+    }
+    
+    // Additional check: verify user still exists in database
+    $userId = $_SESSION['user_id'];
+    $sql = "SELECT id, is_approved FROM users WHERE id = ?";
+    $result = fetchOne($sql, [$userId]);
+    
+    if (!$result || !$result['is_approved']) {
+        // User doesn't exist or is not approved, clear session
+        session_destroy();
+        return false;
+    }
+    
+    return true;
 }
 
 /**
@@ -343,7 +363,11 @@ function updatePIN($newPin) {
  */
 function requireAuth() {
     if (!isAuthenticated()) {
-        redirect('login.php');
+        // Clear any corrupted session data
+        session_destroy();
+        session_start();
+        header("Location: login.php");
+        exit();
     }
 }
 
