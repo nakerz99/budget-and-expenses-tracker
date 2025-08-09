@@ -45,7 +45,7 @@ $previousMonthData = getMonthData($previousMonth, $previousYear);
 $currentMonthData = getMonthData($currentMonth, $currentYear);
 $nextMonthData = getForecastData($nextMonth, $nextYear);
 
-$messages = getMessages();
+// Messages are handled by header.php
 ?>
 <?php
 $pageTitle = 'Monthly Analytics - NR BUDGET Planner';
@@ -59,21 +59,6 @@ if (defined('USING_ROUTER')) {
 ?>
 
     <div class="container mt-4">
-        <!-- Messages -->
-        <?php if ($messages['success']): ?>
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <i class="fas fa-check-circle me-2"></i><?php echo $messages['success']; ?>
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
-        <?php endif; ?>
-        
-        <?php if ($messages['error']): ?>
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <i class="fas fa-exclamation-circle me-2"></i><?php echo $messages['error']; ?>
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
-        <?php endif; ?>
-
         <!-- Header -->
         <div class="row mb-4">
             <div class="col">

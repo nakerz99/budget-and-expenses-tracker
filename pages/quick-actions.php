@@ -11,7 +11,7 @@ if (defined('USING_ROUTER')) {
 // Require authentication
 requireAuth();
 
-$messages = getMessages();
+// Messages are handled by header.php
 $quickActions = getQuickActions();
 $expenseCategories = getExpenseCategories();
 
@@ -128,21 +128,6 @@ if (defined('USING_ROUTER')) {
                         <i class="fas fa-plus me-2"></i>Add Quick Action
                     </button>
                 </div>
-
-                <!-- Messages -->
-                <?php if ($messages['success']): ?>
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <?= htmlspecialchars($messages['success']) ?>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                    </div>
-                <?php endif; ?>
-
-                <?php if ($messages['error']): ?>
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <?= htmlspecialchars($messages['error']) ?>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                    </div>
-                <?php endif; ?>
 
                 <!-- Quick Actions Grid -->
                 <div class="row">

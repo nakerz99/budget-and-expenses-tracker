@@ -33,6 +33,7 @@ $routes = [
     '/savings' => '/pages/savings.php',
     '/monthly-budget' => '/pages/monthly-budget.php',
     '/analytics' => '/pages/monthly-analytics.php',
+    '/reports' => '/pages/reports.php',
     '/user-approvals' => '/pages/user-approvals.php',
     '/pin-settings' => '/pages/pin-settings.php',
     '/expense-categories' => '/pages/expense-categories.php'
