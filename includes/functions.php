@@ -227,16 +227,24 @@ function isInPagesDirectory() {
 function getBills($monthId = null) {
     $userId = getCurrentUserId();
     if ($monthId) {
-        $sql = "SELECT e.*, ec.name as category_name, ec.color as category_color 
+        $sql = "SELECT e.*, ec.name as category_name, ec.color as category_color,
+                       CASE WHEN ae.id IS NOT NULL THEN 1 ELSE 0 END as is_paid,
+                       ae.actual_amount as paid_amount,
+                       ae.date_paid as paid_date
                 FROM expenses e 
                 JOIN expense_categories ec ON e.category_id = ec.id 
+                LEFT JOIN actual_expenses ae ON e.id = ae.expense_id AND ae.user_id = e.user_id
                 WHERE e.month_id = ? AND e.user_id = ? AND e.is_bill = 1 
                 ORDER BY e.due_date ASC";
         return fetchAll($sql, [$monthId, $userId]);
     } else {
-        $sql = "SELECT e.*, ec.name as category_name, ec.color as category_color 
+        $sql = "SELECT e.*, ec.name as category_name, ec.color as category_color,
+                       CASE WHEN ae.id IS NOT NULL THEN 1 ELSE 0 END as is_paid,
+                       ae.actual_amount as paid_amount,
+                       ae.date_paid as paid_date
                 FROM expenses e 
                 JOIN expense_categories ec ON e.category_id = ec.id 
+                LEFT JOIN actual_expenses ae ON e.id = ae.expense_id AND ae.user_id = e.user_id
                 WHERE e.month_id = (SELECT id FROM months WHERE is_active = 1 AND user_id = ?) 
                 AND e.user_id = ? AND e.is_bill = 1 
                 ORDER BY e.due_date ASC";
@@ -257,8 +265,10 @@ function getUpcomingBills() {
                    DATEDIFF(e.due_date, CURDATE()) as days_until_due
             FROM expenses e 
             JOIN expense_categories ec ON e.category_id = ec.id 
+            LEFT JOIN actual_expenses ae ON e.id = ae.expense_id AND ae.user_id = e.user_id
             WHERE e.month_id = ? AND e.user_id = ? AND e.is_bill = 1 
             AND e.due_date >= CURDATE() AND e.due_date <= DATE_ADD(CURDATE(), INTERVAL 7 DAY)
+            AND ae.id IS NULL
             ORDER BY e.due_date ASC";
     
     return fetchAll($sql, [$currentMonth['id'], $userId]);
@@ -277,8 +287,10 @@ function getOverdueBills() {
                    DATEDIFF(CURDATE(), e.due_date) as days_overdue
             FROM expenses e 
             JOIN expense_categories ec ON e.category_id = ec.id 
+            LEFT JOIN actual_expenses ae ON e.id = ae.expense_id AND ae.user_id = e.user_id
             WHERE e.month_id = ? AND e.user_id = ? AND e.is_bill = 1 
             AND e.due_date < CURDATE()
+            AND ae.id IS NULL
             ORDER BY e.due_date ASC";
     
     return fetchAll($sql, [$currentMonth['id'], $userId]);
@@ -295,12 +307,13 @@ function getBillStatistics() {
     
     $sql = "SELECT 
                 COUNT(*) as total_bills,
-                SUM(CASE WHEN due_date < CURDATE() THEN 1 ELSE 0 END) as overdue_bills,
-                SUM(CASE WHEN due_date >= CURDATE() AND due_date <= DATE_ADD(CURDATE(), INTERVAL 7 DAY) THEN 1 ELSE 0 END) as upcoming_bills,
-                SUM(budgeted_amount) as total_amount,
-                SUM(CASE WHEN due_date < CURDATE() THEN budgeted_amount ELSE 0 END) as overdue_amount
-            FROM expenses 
-            WHERE month_id = ? AND user_id = ? AND is_bill = 1";
+                SUM(CASE WHEN e.due_date < CURDATE() THEN 1 ELSE 0 END) as overdue_bills,
+                SUM(CASE WHEN e.due_date >= CURDATE() AND e.due_date <= DATE_ADD(CURDATE(), INTERVAL 7 DAY) THEN 1 ELSE 0 END) as upcoming_bills,
+                SUM(e.budgeted_amount) as total_amount,
+                SUM(CASE WHEN e.due_date < CURDATE() THEN e.budgeted_amount ELSE 0 END) as overdue_amount
+            FROM expenses e
+            LEFT JOIN actual_expenses ae ON e.id = ae.expense_id AND ae.user_id = e.user_id
+            WHERE e.month_id = ? AND e.user_id = ? AND e.is_bill = 1 AND ae.id IS NULL";
     
     $result = fetchOne($sql, [$currentMonth['id'], $userId]);
     return $result ?: [];

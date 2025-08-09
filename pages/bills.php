@@ -334,7 +334,19 @@ if (defined('USING_ROUTER')) {
                                             <?php echo htmlspecialchars($bill['category_name']); ?>
                                         </span>
                                     </td>
-                                    <td><?php echo formatCurrency($bill['budgeted_amount']); ?></td>
+                                    <td>
+                                        <?php if ($bill['is_paid']): ?>
+                                            <span class="text-decoration-line-through text-muted">
+                                                <?php echo formatCurrency($bill['budgeted_amount']); ?>
+                                            </span>
+                                            <br>
+                                            <span class="text-success">
+                                                <?php echo formatCurrency($bill['paid_amount']); ?>
+                                            </span>
+                                        <?php else: ?>
+                                            <?php echo formatCurrency($bill['budgeted_amount']); ?>
+                                        <?php endif; ?>
+                                    </td>
                                     <td>
                                         <?php
                                         $dueDate = strtotime($bill['due_date']);
@@ -351,24 +363,36 @@ if (defined('USING_ROUTER')) {
                                         ?>
                                     </td>
                                     <td>
-                                        <?php
-                                        if ($daysDiff < 0) {
-                                            echo '<span class="badge bg-danger">Overdue</span>';
-                                        } elseif ($daysDiff <= 7) {
-                                            echo '<span class="badge bg-warning">Upcoming</span>';
-                                        } else {
-                                            echo '<span class="badge bg-success">On Time</span>';
-                                        }
-                                        ?>
+                                        <?php if ($bill['is_paid']): ?>
+                                            <span class="badge bg-success">
+                                                <i class="fas fa-check-circle me-1"></i>Paid
+                                            </span>
+                                            <br>
+                                            <small class="text-muted">
+                                                Paid: <?php echo date('M j, Y', strtotime($bill['paid_date'])); ?>
+                                            </small>
+                                        <?php else: ?>
+                                            <?php
+                                            if ($daysDiff < 0) {
+                                                echo '<span class="badge bg-danger">Overdue</span>';
+                                            } elseif ($daysDiff <= 7) {
+                                                echo '<span class="badge bg-warning">Upcoming</span>';
+                                            } else {
+                                                echo '<span class="badge bg-success">On Time</span>';
+                                            }
+                                            ?>
+                                        <?php endif; ?>
                                     </td>
                                     <td>
                                         <div class="btn-group btn-group-sm">
                                             <button class="btn btn-outline-primary" onclick="editDueDate(<?php echo $bill['id']; ?>, '<?php echo $bill['due_date']; ?>')">
                                                 <i class="fas fa-edit"></i>
                                             </button>
-                                            <button class="btn btn-outline-success" onclick="markAsPaid(<?php echo $bill['id']; ?>, '<?php echo $bill['name']; ?>', <?php echo $bill['budgeted_amount']; ?>)">
-                                                <i class="fas fa-check"></i>
-                                            </button>
+                                            <?php if (!$bill['is_paid']): ?>
+                                                <button class="btn btn-outline-success" onclick="markAsPaid(<?php echo $bill['id']; ?>, '<?php echo $bill['name']; ?>', <?php echo $bill['budgeted_amount']; ?>)">
+                                                    <i class="fas fa-check"></i>
+                                                </button>
+                                            <?php endif; ?>
                                         </div>
                                     </td>
                                 </tr>
