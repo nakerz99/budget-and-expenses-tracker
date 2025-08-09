@@ -20,7 +20,7 @@ requireAuth();
 define('INCLUDED_FROM_INDEX', true);
 
 // Handle actions
-$action = $_GET['action'] ?? 'list';
+$action = $_GET['action'] ?? $_POST['action'] ?? 'list';
 $success = '';
 $error = '';
 
@@ -41,10 +41,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $notes = sanitizeInput($_POST['notes']);
         $paymentMethodId = !empty($_POST['payment_method_id']) ? sanitizeInput($_POST['payment_method_id'], 'int') : null;
         
+        // Debug information
+        error_log("Mark as paid attempt - Expense ID: $expenseId, Amount: $amount, Date: $date");
+        
         if (markBillAsPaid($expenseId, $amount, $date, $notes, $paymentMethodId)) {
             $success = 'Bill marked as paid successfully!';
         } else {
-            $error = 'Failed to mark bill as paid.';
+            $error = 'Failed to mark bill as paid. Please ensure you have an active monthly budget.';
         }
     }
 }
@@ -387,7 +390,8 @@ if (defined('USING_ROUTER')) {
                 <h5 class="modal-title">Update Due Date</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <form method="POST" action="?action=update_due_date">
+            <form method="POST">
+                <input type="hidden" name="action" value="update_due_date">
                 <div class="modal-body">
                     <input type="hidden" id="expense_id" name="expense_id">
                     <div class="mb-3">
@@ -412,7 +416,8 @@ if (defined('USING_ROUTER')) {
                 <h5 class="modal-title">Mark Bill as Paid</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <form method="POST" action="?action=mark_paid">
+            <form method="POST">
+                <input type="hidden" name="action" value="mark_paid">
                 <div class="modal-body">
                     <input type="hidden" id="paid_expense_id" name="expense_id">
                     <div class="mb-3">

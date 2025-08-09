@@ -332,7 +332,18 @@ function markBillAsPaid($expenseId, $amount, $date, $notes = '', $paymentMethodI
     $currentMonth = getCurrentMonth();
     $currentWeek = getCurrentWeek();
     
-    if (!$currentMonth || !$currentWeek) return false;
+    // Debug logging
+    error_log("markBillAsPaid - User ID: $userId, Month: " . ($currentMonth ? $currentMonth['id'] : 'null') . ", Week: " . ($currentWeek ? $currentWeek['id'] : 'null'));
+    
+    if (!$currentMonth) {
+        error_log("markBillAsPaid failed - No current month found");
+        return false;
+    }
+    
+    if (!$currentWeek) {
+        error_log("markBillAsPaid failed - No current week found");
+        return false;
+    }
     
     $data = [
         'expense_id' => $expenseId,
@@ -344,7 +355,10 @@ function markBillAsPaid($expenseId, $amount, $date, $notes = '', $paymentMethodI
         'payment_method_id' => $paymentMethodId
     ];
     
-    return addActualExpense($data);
+    $result = addActualExpense($data);
+    error_log("markBillAsPaid result: " . ($result ? 'success' : 'failed'));
+    
+    return $result;
 }
 
 /**
