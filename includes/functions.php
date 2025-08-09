@@ -664,6 +664,31 @@ function deleteExpenseCategory($id) {
 }
 
 /**
+ * Check if expense category has bills with due dates
+ * @param int $categoryId
+ * @return bool
+ */
+function categoryHasDueDates($categoryId) {
+    $userId = getCurrentUserId();
+    $sql = "SELECT COUNT(*) as count FROM expenses WHERE category_id = ? AND is_bill = 1 AND user_id = ?";
+    $result = fetchOne($sql, [$categoryId, $userId]);
+    return $result && $result['count'] > 0;
+}
+
+/**
+ * Get categories with due dates
+ * @return array
+ */
+function getCategoriesWithDueDates() {
+    $userId = getCurrentUserId();
+    $sql = "SELECT DISTINCT ec.* FROM expense_categories ec 
+            JOIN expenses e ON ec.id = e.category_id 
+            WHERE e.is_bill = 1 AND ec.is_active = 1 AND e.user_id = ? AND ec.user_id = ?
+            ORDER BY ec.name";
+    return fetchAll($sql, [$userId, $userId]);
+}
+
+/**
  * Get all budgeted expenses with category info
  * @return array
  */

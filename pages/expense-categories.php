@@ -164,7 +164,14 @@ if (defined('USING_ROUTER')) {
                             </div>
                         </div>
                         <?php if ($category['description']): ?>
-                            <p class="card-text text-muted"><?php echo htmlspecialchars($category['description']); ?></p>
+                            <p class="card-text text-muted">
+                                <?php echo htmlspecialchars($category['description']); ?>
+                                <?php if (categoryHasDueDates($category['id'])): ?>
+                                    <span class="badge bg-warning text-dark ms-2">
+                                        <i class="fas fa-calendar-alt me-1"></i>Due Dates
+                                    </span>
+                                <?php endif; ?>
+                            </p>
                         <?php endif; ?>
                         <div class="mt-auto">
                             <small class="text-muted">
