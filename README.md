@@ -6,7 +6,7 @@
   <p><strong>Smart Personal Finance Management System</strong></p>
   <p>Track income, expenses, savings, and bills with powerful analytics and forecasting</p>
   
-  [![PHP](https://img.shields.io/badge/PHP-8.2+-777BB4?style=for-the-badge&logo=php&logoColor=white)](https://php.net)
+  [![PHP](https://img.shields.io/badge/PHP-7.4+-777BB4?style=for-the-badge&logo=php&logoColor=white)](https://php.net)
   [![MySQL](https://img.shields.io/badge/MySQL-8.0+-4479A1?style=for-the-badge&logo=mysql&logoColor=white)](https://mysql.com)
   [![Bootstrap](https://img.shields.io/badge/Bootstrap-5.3+-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white)](https://getbootstrap.com)
   [![Chart.js](https://img.shields.io/badge/Chart.js-4.0+-FF6384?style=for-the-badge&logo=chart.js&logoColor=white)](https://chartjs.org)
@@ -72,7 +72,7 @@
 
 ## 🛠️ Technology Stack
 
-- **Backend**: PHP 8.2+
+- **Backend**: PHP 7.4+ (Compatible with PHP 8.2+)
 - **Database**: MySQL 8.0+
 - **Frontend**: Bootstrap 5.3, Chart.js 4.0+
 - **Icons**: Font Awesome 6.0
@@ -85,7 +85,7 @@
 ## 📋 Prerequisites
 
 Before you begin, ensure you have the following installed:
-- PHP 8.2 or higher
+- PHP 7.4 or higher (tested with PHP 7.4.33 and PHP 8.2.29)
 - MySQL 8.0 or higher
 - Web server (Apache/Nginx) or PHP development server
 - Composer (optional, for dependency management)
@@ -130,7 +130,20 @@ cp config/database.example.php config/database.php
 php -S localhost:8080 -t . router.php
 ```
 
-#### Option B: Apache/Nginx
+#### Option B: Laravel Valet (macOS)
+```bash
+# Install Valet if not already installed
+composer global require laravel/valet
+valet install
+
+# Park the directory and use PHP 7.4
+valet park
+valet use php@7.4
+
+# Access via http://budgetplanner.test
+```
+
+#### Option C: Apache/Nginx
 1. Configure your web server to point to the project directory
 2. Ensure mod_rewrite is enabled for Apache
 3. Access the application via your web browser
@@ -293,6 +306,13 @@ The application has been tested and optimized for:
 
 ## 🔄 Recent Updates
 
+### v2.2.0 - PHP 7.4 Compatibility
+- ✅ **PHP 7.4 Support**: Full compatibility with PHP 7.4.33+
+- ✅ **Backward Compatibility**: Works with PHP 7.4 through PHP 8.2+
+- ✅ **Valet Integration**: Laravel Valet support for local development
+- ✅ **Comprehensive Testing**: PHP 7.4 compatibility verified
+- ✅ **Branch Management**: Dedicated `php7.4-compatibility` branch
+
 ### v2.1.0 - Enhanced Bill Management & Categories
 - ✅ **Bill Payment Tracking**: "Mark as Paid" functionality with status updates
 - ✅ **Expense Categories Management**: Full CRUD operations for categories
@@ -332,11 +352,26 @@ The application has been tested and optimized for:
 2. **URL Routing**: Use the custom router for PHP development server
 3. **Permissions**: Ensure proper file permissions for uploads and logs
 4. **Session Issues**: Clear browser cache and cookies if login problems occur
+5. **PHP Version**: Ensure PHP 7.4+ is installed and configured
 
 ### Debug Tools
 - `debug.php` - Session and authentication debugging
 - `test-login.php` - Login functionality testing
+- `test_compatibility.php` - PHP 7.4 compatibility testing
 - Error logs in PHP and MySQL for detailed debugging
+
+### PHP Version Testing
+```bash
+# Test PHP 7.4 compatibility
+php test_compatibility.php
+
+# Check PHP version
+php -v
+
+# Test with Valet (macOS)
+valet use php@7.4
+valet park
+```
 
 ---
 
@@ -347,6 +382,11 @@ The application has been tested and optimized for:
 3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
+
+### Branch Strategy
+- `main` - Latest stable version (PHP 8.2+)
+- `php7.4-compatibility` - PHP 7.4 compatible version
+- Feature branches for new development
 
 ---
 
@@ -371,6 +411,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - Font Awesome for the comprehensive icon library
 - PHP community for the robust backend framework
 - MySQL community for the reliable database system
+- Laravel team for Valet development tool
 
 ---
 
