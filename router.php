@@ -20,8 +20,11 @@ if (empty($path) || $path === '/') {
 $routes = [
     '/dashboard' => '/index.php',
     '/login' => '/login.php',
+    '/login.php' => '/login.php',  // Handle direct .php access
     '/register' => '/register.php',
+    '/register.php' => '/register.php',  // Handle direct .php access
     '/logout' => '/logout.php',
+    '/logout.php' => '/logout.php',  // Handle direct .php access
     '/income' => '/pages/income.php',
     '/expenses' => '/pages/expenses.php',
     '/actual-expenses' => '/pages/actual-expenses.php',
@@ -68,6 +71,8 @@ if (strpos($path, '/pages/') === 0) {
 // If no route matches, check if it's a direct PHP file
 $file = __DIR__ . $path . '.php';
 if (file_exists($file)) {
+    // Set a flag to indicate we're using the router
+    define('USING_ROUTER', true);
     require $file;
     return true;
 }
