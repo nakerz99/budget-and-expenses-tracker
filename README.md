@@ -68,6 +68,12 @@
 - Payment status updates
 - System-wide notification management
 
+### 🗄️ **Database Management**
+- Laravel-style migration system for easy deployment
+- Database seeding with default data
+- Safe database updates and schema management
+- Automated database setup and reset functionality
+
 ---
 
 ## 🛠️ Technology Stack
@@ -79,6 +85,7 @@
 - **Security**: PIN-based authentication with hashing
 - **URLs**: Clean URL routing with .htaccess support
 - **Development**: PHP development server with custom router
+- **Database**: Migration and seeder system for easy deployment
 
 ---
 
@@ -101,6 +108,20 @@ cd budget-and-expenses-tracker
 ```
 
 ### 2. Database Setup
+
+#### Option A: Quick Setup with Migration System (Recommended)
+```bash
+# Run the complete database setup
+php database/setup.php
+
+# Or run individual components
+php database/setup.php migrate    # Run migrations only
+php database/setup.php seed       # Run seeders only
+php database/setup.php status     # Check migration status
+php database/setup.php reset      # Reset database (WARNING: deletes all data)
+```
+
+#### Option B: Manual Database Setup
 ```bash
 # Create a new MySQL database
 mysql -u root -p
@@ -219,6 +240,12 @@ valet use php@7.4
 - Payment status tracked via `actual_expenses` table
 - Due dates and bill types for categorization
 
+### Migration System
+- **Migrations**: 12 migration files for database schema management
+- **Seeders**: Default data population (categories, payment methods, savings accounts)
+- **Setup Scripts**: Automated database setup and management
+- **Safe Updates**: Database update scripts with existence checks
+
 ---
 
 ## 🎨 UI/UX Features
@@ -306,6 +333,14 @@ The application has been tested and optimized for:
 
 ## 🔄 Recent Updates
 
+### v2.3.0 - Database Migration System & Cleanup
+- ✅ **Migration System**: Laravel-style database migrations and seeders
+- ✅ **Automated Setup**: One-command database setup with `php database/setup.php`
+- ✅ **Database Cleanup**: Removed duplicate and unnecessary entries
+- ✅ **Netflix Removal**: Completely removed Netflix subscription from system
+- ✅ **Safe Updates**: Database update scripts with existence checks
+- ✅ **Easy Deployment**: Migration system for consistent database setup
+
 ### v2.2.0 - PHP 7.4 Compatibility
 - ✅ **PHP 7.4 Support**: Full compatibility with PHP 7.4.33+
 - ✅ **Backward Compatibility**: Works with PHP 7.4 through PHP 8.2+
@@ -360,6 +395,19 @@ The application has been tested and optimized for:
 - `test_compatibility.php` - PHP 7.4 compatibility testing
 - Error logs in PHP and MySQL for detailed debugging
 
+### Database Management
+```bash
+# Check migration status
+php database/setup.php status
+
+# Reset database (WARNING: deletes all data)
+php database/setup.php reset
+
+# Run specific components
+php database/setup.php migrate
+php database/setup.php seed
+```
+
 ### PHP Version Testing
 ```bash
 # Test PHP 7.4 compatibility
@@ -385,7 +433,7 @@ valet park
 
 ### Branch Strategy
 - `main` - Latest stable version (PHP 8.2+)
-- `php7.4-compatibility` - PHP 7.4 compatible version
+- `php7.4-compatibility` - PHP 7.4 compatible version with migrations
 - Feature branches for new development
 
 ---
@@ -411,7 +459,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - Font Awesome for the comprehensive icon library
 - PHP community for the robust backend framework
 - MySQL community for the reliable database system
-- Laravel team for Valet development tool
+- Laravel team for Valet development tool and migration inspiration
 
 ---
 
