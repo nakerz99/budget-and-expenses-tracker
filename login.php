@@ -7,6 +7,12 @@
 session_start();
 require_once 'includes/functions.php';
 
+// Clear any corrupted session data
+if (isset($_GET['clear']) || !isset($_SESSION['authenticated'])) {
+    session_destroy();
+    session_start();
+}
+
 // If already authenticated, redirect to dashboard
 if (isAuthenticated()) {
     redirect('index.php');
