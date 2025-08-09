@@ -239,11 +239,7 @@ include 'includes/header.php';
                             </div>
                             <?php endforeach; ?>
                         </div>
-                        <div class="text-center mt-3">
-                            <a href="pages/actual-expenses.php" class="btn btn-primary">
-                                <i class="fas fa-plus me-2"></i>Add Custom Expense
-                            </a>
-                        </div>
+
                     </div>
                 </div>
             </div>
@@ -527,7 +523,7 @@ include 'includes/header.php';
                                     <div class="text-center py-4">
                                         <i class="fas fa-calendar-week fa-3x text-muted mb-3"></i>
                                         <p class="text-muted">No expenses recorded for this week yet.</p>
-                                        <p class="text-muted">Use quick actions above or add custom expenses.</p>
+                                        <p class="text-muted">Use quick actions above to add expenses.</p>
                                     </div>
                                 <?php else: ?>
                                     <div class="table-responsive">
