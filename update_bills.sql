@@ -59,12 +59,6 @@ SET is_bill = TRUE,
     due_date = DATE_FORMAT(DATE_ADD(CURDATE(), INTERVAL 1 MONTH), '%Y-%m-30')
 WHERE name = 'Insurance' AND user_id = 1;
 
--- Update Netflix
-UPDATE expenses 
-SET is_bill = TRUE, 
-    bill_type = 'subscription', 
-    due_date = DATE_FORMAT(DATE_ADD(CURDATE(), INTERVAL 1 MONTH), '%Y-%m-01')
-WHERE name = 'Netflix' AND user_id = 1;
 
 -- Update i-cloud
 UPDATE expenses 

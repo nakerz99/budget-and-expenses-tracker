@@ -248,7 +248,7 @@ INSERT INTO expenses (user_id, category_id, name, budgeted_amount, schedule_type
 (1, 13, 'Dette', 10000.00, 'monthly', NULL, 'Debt Payments'),
 (1, 14, 'Leisure', 10000.00, 'monthly', NULL, 'Entertainment & Leisure'),
 (1, 15, 'BPI Credit to Cash', 2090.00, 'monthly', NULL, 'BPI Credit to Cash'),
-(1, 16, 'Netflix', 450.00, 'monthly', NULL, 'Netflix Subscription'),
+
 (1, 16, 'i-cloud', 180.00, 'monthly', NULL, 'iCloud Subscription'),
 (1, 16, 'Youtube', 250.00, 'monthly', NULL, 'YouTube Subscription'),
 (1, 16, 'Cursor', 1000.00, 'monthly', NULL, 'Cursor Subscription'),

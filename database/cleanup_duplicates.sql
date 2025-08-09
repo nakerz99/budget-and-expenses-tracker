@@ -2,9 +2,8 @@
 -- Removes duplicate entries from expenses table
 -- Run this script if duplicates are found
 
--- Remove duplicate Netflix entries (keep the one with higher amount)
-DELETE FROM expenses WHERE id = 17; -- Netflix (450.00)
--- Kept: Netflix Subscription (549.00) with id = 29
+-- Remove all Netflix entries (completely removed)
+DELETE FROM expenses WHERE name LIKE '%netflix%' OR name LIKE '%Netflix%';
 
 -- Remove duplicate Water Bill entries (keep the one with higher amount)
 DELETE FROM expenses WHERE id = 5; -- Water Bill (350.00)
