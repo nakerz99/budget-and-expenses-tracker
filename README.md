@@ -1,7 +1,7 @@
 # NR BUDGET Planner 💰
 
 <div align="center">
-  <img src="assets/logo.png" alt="NR BUDGET Planner Logo" width="200" height="200">
+  <img src="assets/logo.svg" alt="NR BUDGET Planner Logo" width="200" height="200">
   <h1>NR BUDGET Planner</h1>
   <p><strong>Smart Personal Finance Management System</strong></p>
   <p>Track income, expenses, savings, and bills with powerful analytics and forecasting</p>
