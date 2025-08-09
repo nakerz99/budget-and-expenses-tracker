@@ -104,7 +104,7 @@ cp config/database.example.php config/database.php
 
 #### Option A: PHP Development Server (Recommended for Development)
 ```bash
-php -S localhost:8001 -t . router.php
+php -S localhost:8080 -t . router.php
 ```
 
 #### Option B: Apache/Nginx
@@ -113,7 +113,7 @@ php -S localhost:8001 -t . router.php
 3. Access the application via your web browser
 
 ### 5. Initial Setup
-1. Visit `http://localhost:8001/register` to create the first admin account
+1. Visit `http://localhost:8080/register` to create the first admin account
 2. The first registered user automatically becomes an admin
 3. Login with your credentials and start managing your budget!
 
