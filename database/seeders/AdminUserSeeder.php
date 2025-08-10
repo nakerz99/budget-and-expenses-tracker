@@ -23,7 +23,7 @@ class AdminUserSeeder {
         }
         
         // Create admin user
-        $sql = "INSERT INTO users (username, email, password, is_approved, approved_at, approved_by) VALUES (?, ?, ?, ?, NOW(), ?)";
+        $sql = "INSERT INTO users (username, email, password_hash, is_approved, is_admin, created_at) VALUES (?, ?, ?, ?, ?, NOW())";
         $stmt = $this->pdo->prepare($sql);
         
         $adminPassword = password_hash('admin123', PASSWORD_DEFAULT);
@@ -38,11 +38,11 @@ class AdminUserSeeder {
         $adminUserId = $this->pdo->lastInsertId();
         
         // Create admin PIN
-        $sql = "INSERT INTO security_pin (user_id, pin_hash) VALUES (?, ?)";
+        $sql = "INSERT INTO security_pin (user_id, pin_hash, is_active) VALUES (?, ?, ?)";
         $stmt = $this->pdo->prepare($sql);
         
         $adminPin = password_hash('123456', PASSWORD_DEFAULT);
-        $stmt->execute([$adminUserId, $adminPin]);
+        $stmt->execute([$adminUserId, $adminPin, 1]);
         
         echo "Admin user created with credentials:\n";
         echo "Username: admin\n";

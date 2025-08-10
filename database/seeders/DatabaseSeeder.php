@@ -13,6 +13,7 @@ require_once __DIR__ . '/DefaultExpenseCategoriesSeeder.php';
 require_once __DIR__ . '/DefaultPaymentMethodsSeeder.php';
 require_once __DIR__ . '/DefaultSavingsAccountsSeeder.php';
 require_once __DIR__ . '/AdminUserSeeder.php';
+require_once __DIR__ . '/SampleDataSeeder.php';
 
 class DatabaseSeeder {
     private $pdo;
@@ -29,6 +30,7 @@ class DatabaseSeeder {
         $this->call(DefaultPaymentMethodsSeeder::class);
         $this->call(DefaultSavingsAccountsSeeder::class);
         $this->call(AdminUserSeeder::class);
+        $this->call(SampleDataSeeder::class);
         
         echo "Database seeding completed successfully!\n";
     }
