@@ -3,18 +3,23 @@
  * Database Configuration
  * Budget Planner Application
  * 
- * IMPORTANT: Update these credentials with your actual Hostinger database details
- * You can find these in your Hostinger control panel under "Databases" section
+ * This file now uses .env configuration through the Environment class
  */
 
-// Database connection settings
-define('DB_HOST', 'localhost');     // Usually 'localhost' for Hostinger
-define('DB_NAME', 'your_hostinger_db_name'); // Your Hostinger database name
-define('DB_USER', 'your_hostinger_db_user'); // Your Hostinger database username
-define('DB_PASS', 'your_hostinger_db_password'); // Your Hostinger database password
+// Load environment configuration
+require_once __DIR__ . '/Environment.php';
+Environment::load();
 
-// Database charset
-define('DB_CHARSET', 'utf8mb4');
+// Get database configuration from environment
+$dbConfig = Environment::getDatabaseConfig();
+
+// Database connection settings from .env
+define('DB_HOST', $dbConfig['host']);
+define('DB_NAME', $dbConfig['name']);
+define('DB_USER', $dbConfig['user']);
+define('DB_PASS', $dbConfig['pass']);
+define('DB_CHARSET', $dbConfig['charset']);
+define('DB_PORT', $dbConfig['port']);
 
 // PDO options - optimized for shared hosting
 define('PDO_OPTIONS', [
@@ -30,12 +35,12 @@ define('PDO_OPTIONS', [
  */
 function getDatabaseConnection() {
     try {
-        $dsn = "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=" . DB_CHARSET;
+        $dsn = "mysql:host=" . DB_HOST . ";port=" . DB_PORT . ";dbname=" . DB_NAME . ";charset=" . DB_CHARSET;
         $pdo = new PDO($dsn, DB_USER, DB_PASS, PDO_OPTIONS);
         return $pdo;
     } catch (PDOException $e) {
         error_log("Database connection failed: " . $e->getMessage());
-        throw new Exception("Database connection failed. Please check your configuration.");
+        throw new Exception("Database connection failed. Please check your .env configuration.");
     }
 }
 
@@ -90,5 +95,14 @@ function fetchAll($sql, $params = []) {
         error_log("Fetch all failed: " . $e->getMessage());
         return false;
     }
+}
+
+/**
+ * Get the last inserted ID
+ * @return string
+ */
+function getLastInsertId() {
+    $pdo = getDatabaseConnection();
+    return $pdo->lastInsertId();
 }
 ?>
