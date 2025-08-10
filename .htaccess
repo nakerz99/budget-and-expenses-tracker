@@ -1,33 +1,40 @@
+# Enable URL rewriting
 RewriteEngine On
 
-# Remove .php extension from URLs
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^([^\.]+)$ $1.php [NC,L]
+# Ensure mod_rewrite is available
+<IfModule mod_rewrite.c>
+    # Remove .php extension from URLs
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^([^\.]+)$ $1.php [NC,L]
 
-# Handle clean URLs for pages
-RewriteRule ^dashboard/?$ index.php [NC,L]
-RewriteRule ^login/?$ login.php [NC,L]
-RewriteRule ^register/?$ register.php [NC,L]
-RewriteRule ^logout/?$ logout.php [NC,L]
-RewriteRule ^income/?$ pages/income.php [NC,L]
-RewriteRule ^expenses/?$ pages/expenses.php [NC,L]
-RewriteRule ^actual-expenses/?$ pages/actual-expenses.php [NC,L]
-RewriteRule ^quick-actions/?$ pages/quick-actions.php [NC,L]
-RewriteRule ^bills/?$ pages/bills.php [NC,L]
-RewriteRule ^savings/?$ pages/savings.php [NC,L]
-RewriteRule ^monthly-budget/?$ pages/monthly-budget.php [NC,L]
-RewriteRule ^analytics/?$ pages/analytics.php [NC,L]
-RewriteRule ^user-approvals/?$ pages/user-approvals.php [NC,L]
-RewriteRule ^pin-settings/?$ pages/pin-settings.php [NC,L]
+    # Handle clean URLs for pages
+    RewriteRule ^dashboard/?$ index.php [NC,L]
+    RewriteRule ^login/?$ login.php [NC,L]
+    RewriteRule ^register/?$ register.php [NC,L]
+    RewriteRule ^logout/?$ logout.php [NC,L]
+    RewriteRule ^income/?$ pages/income.php [NC,L]
+    RewriteRule ^expenses/?$ pages/expenses.php [NC,L]
+    RewriteRule ^actual-expenses/?$ pages/actual-expenses.php [NC,L]
+    RewriteRule ^quick-actions/?$ pages/quick-actions.php [NC,L]
+    RewriteRule ^bills/?$ pages/bills.php [NC,L]
+    RewriteRule ^savings/?$ pages/savings.php [NC,L]
+    RewriteRule ^monthly-budget/?$ pages/monthly-budget.php [NC,L]
+    RewriteRule ^analytics/?$ pages/monthly-analytics.php [NC,L]
+    RewriteRule ^user-approvals/?$ pages/user-approvals.php [NC,L]
+    RewriteRule ^pin-settings/?$ pages/pin-settings.php [NC,L]
+    RewriteRule ^expense-categories/?$ pages/expense-categories.php [NC,L]
+    RewriteRule ^reports/?$ pages/reports.php [NC,L]
+    RewriteRule ^quick-expense/?$ pages/quick-expense.php [NC,L]
 
-# Security: Prevent direct access to includes and config directories
-RewriteRule ^includes/ - [F,L]
-RewriteRule ^config/ - [F,L]
+    # Security: Prevent direct access to includes and config directories
+    RewriteRule ^includes/ - [F,L]
+    RewriteRule ^config/ - [F,L]
 
-# Allow AJAX requests but prevent direct browsing
-RewriteCond %{REQUEST_METHOD} !POST
-RewriteRule ^ajax/ - [F,L]
+    # Allow AJAX requests but prevent direct browsing
+    RewriteCond %{REQUEST_METHOD} !POST
+    RewriteRule ^ajax/ - [F,L]
+</IfModule>
 
 # Security: Prevent access to .htaccess and other sensitive files
 <Files ".htaccess">
@@ -55,3 +62,9 @@ RewriteRule ^ajax/ - [F,L]
 
 # Set default index
 DirectoryIndex index.php
+
+# Fallback for servers without mod_rewrite
+<IfModule !mod_rewrite.c>
+    # Redirect to .php versions if mod_rewrite is not available
+    ErrorDocument 404 /404.php
+</IfModule>
