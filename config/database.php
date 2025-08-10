@@ -106,3 +106,12 @@ function getLastInsertId() {
     return $pdo->lastInsertId();
 }
 ?>
+
+/**
+ * Alias function for backward compatibility
+ * @return PDO
+ */
+function getDBConnection() {
+    return getDatabaseConnection();
+}
+
