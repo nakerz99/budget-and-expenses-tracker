@@ -44,9 +44,9 @@ class Environment
             
             // Parse key=value pairs
             if (strpos($line, '=') !== false) {
-                list($key, $value) = explode('=', $line, 2);
-                $key = trim($key);
-                $value = trim($value);
+                $parts = explode('=', $line, 2);
+                $key = trim($parts[0]);
+                $value = trim($parts[1]);
                 
                 // Remove quotes if present
                 if (preg_match('/^(["\'])(.*)\1$/', $value, $matches)) {
