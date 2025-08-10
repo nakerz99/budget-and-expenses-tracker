@@ -13,26 +13,27 @@ class DefaultSavingsAccountsSeeder {
     
     public function run() {
         $savingsAccounts = [
-            ['name' => 'Emergency Fund', 'type' => 'bank', 'description' => 'Emergency savings fund', 'target_balance' => 10000.00],
-            ['name' => 'Vacation Fund', 'type' => 'bank', 'description' => 'Savings for vacations and travel', 'target_balance' => 5000.00],
-            ['name' => 'Investment Account', 'type' => 'investment', 'description' => 'Long-term investment savings', 'target_balance' => null],
-            ['name' => 'Cash Savings', 'type' => 'cash', 'description' => 'Physical cash savings', 'target_balance' => 1000.00],
-            ['name' => 'Digital Wallet', 'type' => 'digital', 'description' => 'Digital payment wallet', 'target_balance' => 500.00]
+            ['name' => 'Emergency Fund', 'description' => 'Emergency savings fund', 'target_amount' => 10000.00],
+            ['name' => 'Vacation Fund', 'description' => 'Savings for vacations and travel', 'target_amount' => 5000.00],
+            ['name' => 'Investment Account', 'description' => 'Long-term investment savings', 'target_amount' => null],
+            ['name' => 'Cash Savings', 'description' => 'Physical cash savings', 'target_amount' => 1000.00],
+            ['name' => 'Digital Wallet', 'description' => 'Digital payment wallet', 'target_amount' => 500.00]
         ];
         
-        $sql = "INSERT IGNORE INTO savings_accounts (user_id, name, type, bank_name, target_balance, icon, color) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT IGNORE INTO savings_accounts (user_id, name, description, target_amount, current_amount, is_active) VALUES (?, ?, ?, ?, ?, ?)";
         $stmt = $this->pdo->prepare($sql);
         
         foreach ($savingsAccounts as $account) {
             $stmt->execute([
                 1, // Default user ID for admin
                 $account['name'],
-                $account['type'],
-                $account['description'], // Use description as bank_name
-                $account['target_balance'],
-                'fas fa-piggy-bank', // Default icon
-                '#28a745' // Default color
+                $account['description'],
+                $account['target_amount'],
+                0.00, // current_amount starts at 0
+                1 // is_active
             ]);
         }
+        
+        echo "Default savings accounts created successfully\n";
     }
 }

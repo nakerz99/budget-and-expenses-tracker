@@ -139,8 +139,14 @@ class SampleDataSeeder {
         $stmt->execute();
         $categoryId = $stmt->fetchColumn();
         
-        if (!$monthId || !$categoryId) {
-            echo "No months or categories found, skipping sample expenses...\n";
+        if (!$monthId) {
+            echo "No months found, skipping sample expenses...\n";
+            return;
+        }
+        
+        if (!$categoryId) {
+            echo "No expense categories found, skipping sample expenses...\n";
+            echo "Make sure DefaultExpenseCategoriesSeeder runs first!\n";
             return;
         }
         
@@ -167,7 +173,7 @@ class SampleDataSeeder {
             ]);
         }
         
-        echo "Sample expenses created\n";
+        echo "Sample expenses created successfully\n";
     }
     
     private function seedSampleIncome() {
