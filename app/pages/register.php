@@ -5,7 +5,7 @@
  */
 
 session_start();
-require_once 'includes/functions.php';
+require_once '../app/includes/functions.php';
 
 // Redirect if already logged in
 if (isAuthenticated()) {

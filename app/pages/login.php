@@ -22,7 +22,7 @@ if (isset($_SESSION['redirect_count']) && $_SESSION['redirect_count'] > 5) {
     $_SESSION['redirect_count'] = 0;
 }
 
-require_once 'includes/functions.php';
+require_once '../app/includes/functions.php';
 
 // Check if user is already authenticated
 if (isset($_SESSION['authenticated']) && $_SESSION['authenticated'] === true && 
