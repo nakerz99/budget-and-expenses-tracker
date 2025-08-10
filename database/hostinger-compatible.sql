@@ -12,10 +12,6 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
 
--- Create database if not exists
-CREATE DATABASE IF NOT EXISTS `budget_planner` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE `budget_planner`;
-
 -- Table structure for table `users`
 CREATE TABLE `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,

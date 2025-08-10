@@ -74,6 +74,12 @@
 - Safe database updates and schema management
 - Automated database setup and reset functionality
 
+### ⚙️ **Environment Configuration**
+- Easy `.env` file configuration system
+- Centralized application settings
+- Environment-specific configurations
+- Interactive setup wizard for quick configuration
+
 ---
 
 ## 🛠️ Technology Stack
@@ -86,6 +92,7 @@
 - **URLs**: Clean URL routing with .htaccess support
 - **Development**: PHP development server with custom router
 - **Database**: Migration and seeder system for easy deployment
+- **Configuration**: Environment-based configuration system
 
 ---
 
@@ -107,7 +114,27 @@ git clone https://github.com/nakerz99/budget-and-expenses-tracker.git
 cd budget-and-expenses-tracker
 ```
 
-### 2. Database Setup
+### 2. Environment Configuration (Recommended)
+
+#### Option A: Interactive Setup (Easiest)
+```bash
+# Run the interactive environment setup
+php setup-env.php
+
+# This will guide you through creating your .env file
+# and test the database connection
+```
+
+#### Option B: Manual Setup
+```bash
+# Copy the example environment file
+cp env.example .env
+
+# Edit .env with your configuration
+nano .env
+```
+
+### 3. Database Setup
 
 #### Option A: Quick Setup with Migration System (Recommended)
 ```bash
@@ -137,14 +164,15 @@ mysql -u root -p budget_planner < update_bills.sql
 mysql -u root -p budget_planner < update_categories_with_due_dates.sql
 ```
 
-### 3. Configuration
+### 4. Test Configuration
 ```bash
-# Copy and edit the database configuration
-cp config/database.example.php config/database.php
-# Edit config/database.php with your database credentials
+# Test your environment configuration
+php test-config.php
+
+# This will verify all configuration systems are working
 ```
 
-### 4. Start the Application
+### 5. Start the Application
 
 #### Option A: PHP Development Server (Recommended for Development)
 ```bash
@@ -169,10 +197,88 @@ valet use php@7.4
 2. Ensure mod_rewrite is enabled for Apache
 3. Access the application via your web browser
 
-### 5. Initial Setup
+### 6. Initial Setup
 1. Visit `http://localhost:8080/register` to create the first admin account
 2. The first registered user automatically becomes an admin
 3. Login with your credentials and start managing your budget!
+
+---
+
+## ⚙️ Configuration
+
+### Environment Variables
+
+The application uses a `.env` file for configuration. Key variables include:
+
+#### Database Configuration
+```env
+DB_HOST=localhost
+DB_NAME=budget_planner
+DB_USER=root
+DB_PASS=your_password
+DB_CHARSET=utf8mb4
+DB_PORT=3306
+```
+
+#### Application Configuration
+```env
+APP_NAME="NR BUDGET Planner"
+APP_ENV=development
+APP_DEBUG=true
+APP_URL=http://localhost:8080
+APP_TIMEZONE=Asia/Manila
+```
+
+#### Security Configuration
+```env
+SESSION_LIFETIME=3600
+PIN_LENGTH=6
+MAX_LOGIN_ATTEMPTS=5
+LOGIN_TIMEOUT=300
+```
+
+#### Feature Limits
+```env
+MAX_EXPENSES_PER_MONTH=100
+MAX_CATEGORIES_PER_USER=50
+MAX_SAVINGS_ACCOUNTS=10
+MAX_PAYMENT_METHODS=20
+```
+
+#### Notification Settings
+```env
+ENABLE_EMAIL_NOTIFICATIONS=false
+ENABLE_BILL_REMINDERS=true
+BILL_REMINDER_DAYS=3
+ADMIN_NOTIFICATION_EMAIL=admin@budgetplanner.com
+```
+
+### Configuration Functions
+
+The application provides helper functions for accessing configuration:
+
+```php
+// Get any configuration value
+$value = config('DB_HOST', 'localhost');
+
+// Get database configuration
+$dbConfig = getDatabaseConfig();
+
+// Get application configuration
+$appConfig = getAppConfig();
+
+// Get security configuration
+$securityConfig = getSecurityConfig();
+
+// Check environment
+if (isDevelopment()) {
+    // Development-specific code
+}
+
+if (isProduction()) {
+    // Production-specific code
+}
+```
 
 ---
 
@@ -333,6 +439,14 @@ The application has been tested and optimized for:
 
 ## 🔄 Recent Updates
 
+### v2.4.0 - Environment Configuration System
+- ✅ **Environment Configuration**: Easy .env file configuration system
+- ✅ **Interactive Setup**: Guided setup wizard with `php setup-env.php`
+- ✅ **Centralized Config**: All settings in one place with helper functions
+- ✅ **Configuration Testing**: Test script to verify all systems working
+- ✅ **Environment Classes**: Professional configuration management
+- ✅ **Easy Deployment**: Simple configuration for different environments
+
 ### v2.3.0 - Database Migration System & Cleanup
 - ✅ **Migration System**: Laravel-style database migrations and seeders
 - ✅ **Automated Setup**: One-command database setup with `php database/setup.php`
@@ -393,7 +507,20 @@ The application has been tested and optimized for:
 - `debug.php` - Session and authentication debugging
 - `test-login.php` - Login functionality testing
 - `test_compatibility.php` - PHP 7.4 compatibility testing
+- `test-config.php` - Configuration system testing
 - Error logs in PHP and MySQL for detailed debugging
+
+### Configuration Issues
+```bash
+# Test your configuration
+php test-config.php
+
+# Interactive environment setup
+php setup-env.php
+
+# Check environment file
+cat .env
+```
 
 ### Database Management
 ```bash
@@ -433,7 +560,7 @@ valet park
 
 ### Branch Strategy
 - `main` - Latest stable version (PHP 8.2+)
-- `php7.4-compatibility` - PHP 7.4 compatible version with migrations
+- `php7.4-compatibility` - PHP 7.4 compatible version with migrations and env config
 - Feature branches for new development
 
 ---
